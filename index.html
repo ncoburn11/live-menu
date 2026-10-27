@@ -108,7 +108,6 @@ footer{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:
 </head>
 <body>
 <script id="menu-data" type="application/json">{"updated":"2026-10-26T20:23:00-07:00","Flavorade":[{"s":"Black Magic","c":"Wizard Trees"},{"s":"Double Cup","c":"Pearl Pharma"},{"s":"Runtz","c":"Pearl Pharma"},{"s":"Sin Mint","c":"Pearl Pharma"},{"s":"Pearl OG","c":"Pearl Pharma"},{"s":"Hash Burger"},{"s":"Neon Panther"},{"s":"Randy Cain"},{"s":"White Cherries","c":"Bosky"},{"s":"Zmelonz"},{"s":"Grape Gusher","c":"Preferred Gardens"},{"s":"Zoap Remix","c":"Preferred Gardens"},{"s":"Champa Runtz","c":"Bosky"},{"s":"Blue Puzzy","c":"Preferred Gardens"},{"s":"Peanut Butter Breath"},{"s":"Orange Pops","c":"Preferred Gardens"},{"s":"Gummy Pops","c":"Bosky"},{"s":"Diamond Opalz","c":"Bosky"},{"s":"Durban Dream"},{"s":"Blue Dream","c":"Sirius"},{"s":"Super Boof"},{"s":"V-Lish","c":"Preferred Gardens"},{"s":"Chanel Cake","c":"Preferred Gardens"}],"VUZE":[{"s":"Mochalope"},{"s":"Palomita"},{"s":"Government Tangie"},{"s":"Zkunk"},{"s":"Apricot Mintz"},{"s":"Hindu Kush"},{"s":"Spritzer Bomb"},{"s":"Uncrustablez"},{"s":"OGKB 2.0"}],"Sirius Badder":[{"s":"Bacio x G33Z"},{"s":"Gelato Ice"},{"s":"Zixty Zix"}],"Sirius AiO":[{"s":"Bearclaw"},{"s":"RS11 x 92OG"},{"s":"Zixty Zix"}],"Casual":[{"s":"Biscotti Bubble"},{"s":"Scout Marker","c":"Potwest"},{"s":"Motor Sherb"},{"s":"Gumbo"},{"s":"Durban Cookies"},{"s":"Permanent Pink"},{"s":"The Great Papa"},{"s":"Jealous Frost"},{"s":"Permanent Ape"},{"s":"Lemon Cherry Gelato","c":"Potwest"},{"s":"Sour Flower"},{"s":"Hindu Dream"},{"s":"LFG"},{"s":"Bubblez"},{"s":"Aloha Blend"},{"s":"Animal Marker","c":"Potwest"},{"s":"Grape Biscotti","c":"Potwest"},{"s":"Motor Mint","c":"Potwest"}]}</script>
-<div class="ticker" aria-hidden="true"><div class="track" id="tk"></div></div>
 <div class="wrap">
   <header>
     <div class="hgroup">
@@ -152,8 +151,6 @@ footer{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:
 const M=JSON.parse(document.getElementById("menu-data").textContent);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const when=new Date(M.updated).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",timeZone:"America/Los_Angeles"});
-const msgs=["Flavorade","VUZE","Sirius","Casual"];
-document.getElementById("tk").innerHTML=Array(6).fill(msgs).flat().map(m=>`<span>${esc(m.toUpperCase())}</span>`).join("");
 const B=[
  {id:"flavorade",name:"Flavorade",img:"flavorade-banner",clear:true,kind:"1g Vape Carts",parts:[["",M["Flavorade"]]]},
  {id:"vuze",name:"VUZE",img:"vuze",plate:true,kind:"1g Live Resin Carts",parts:[["",M["VUZE"]]]},
