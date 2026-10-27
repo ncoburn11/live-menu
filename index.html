@@ -142,6 +142,9 @@ li.picked .qty{border-color:var(--orange)}
 @keyframes fly{0%{opacity:1;transform:translate(0,0) scale(.4)}100%{opacity:0;transform:translate(var(--x),var(--y)) rotate(var(--r)) scale(1)}}
 @media (prefers-reduced-motion:reduce){.fab svg,.fab.pop,.ticket{animation:none}}
 body{padding-bottom:90px}
+.allcopy{display:flex;flex-direction:column;align-items:center;gap:8px;padding-top:6px}
+.ac-btn{width:auto;min-width:min(320px,100%)}
+#atext{width:100%;box-sizing:border-box;border:2px solid var(--lav);border-radius:12px;padding:10px 12px;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace;background:var(--card);color:var(--ink)}
 footer{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px;max-width:65ch;border-top:2px solid var(--line);padding-top:16px}
 </style>
 <style>body{margin:0}*,*::before,*::after{box-sizing:border-box}img{max-width:100%}[hidden]{display:none!important}</style>
@@ -165,6 +168,11 @@ footer{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:
   </div>
   <div class="tabs" role="tablist" aria-label="Brands" id="tabs"></div>
   <div class="panel" role="tabpanel" id="panel" aria-live="polite"></div>
+  <div class="allcopy">
+    <button type="button" class="tk-copy ac-btn" id="acopy">Copy entire menu</button>
+    <div class="tk-msg" id="amsg" role="status"></div>
+    <textarea id="atext" readonly rows="8" hidden aria-label="Entire menu as text"></textarea>
+  </div>
   <footer>
     <div>Contact your sales rep to place an order.</div>
     <div class="dist"><span class="eyebrow">Distributed by Cleanline Management</span><div class="cl"><img src="logos/cleanline.webp" alt="CleanLine"></div></div>
@@ -272,6 +280,14 @@ document.getElementById("ocopy").addEventListener("click",()=>{const t=otext.val
   const fall=()=>{otext.focus();otext.select();omsg.textContent="It's selected. Tap Copy on your keyboard or phone.";};
   try{navigator.clipboard.writeText(t).then(done,fall)}catch(e){fall()}});
 document.getElementById("oclear").addEventListener("click",()=>{Object.keys(ORDER).forEach(k=>delete ORDER[k]);save();document.querySelectorAll("li.picked").forEach(li=>{li.classList.remove("picked");li.querySelector("input").value=""});bar();});
+function menuText(){
+  const L=[["Flavorade",M["Flavorade"]],["VUZE",M["VUZE"]],["Sirius Badder",M["Sirius Badder"]],["Sirius All-in-One",M["Sirius AiO"]],["Casual",M["Casual"]]];
+  return L.filter(x=>x[1]&&x[1].length).map(([b,a])=>b.toUpperCase()+"\n"+a.map(x=>x.s+(x.c?` (${x.c})`:"")).join("\n")).join("\n\n");
+}
+document.getElementById("acopy").addEventListener("click",()=>{const t=menuText(),msg=document.getElementById("amsg"),ta=document.getElementById("atext");
+  const done=()=>{msg.textContent="Whole menu copied! Paste it anywhere.";ta.hidden=true;};
+  const fall=()=>{ta.value=t;ta.hidden=false;ta.focus();ta.select();msg.textContent="It's selected. Tap Copy on your keyboard or phone.";};
+  try{navigator.clipboard.writeText(t).then(done,fall)}catch(e){fall()}});
 const start=(location.hash||"").slice(1).toLowerCase();
 show(start==="all"||B.some(b=>b.id===start)?start:"flavorade",false);
 bar();
