@@ -80,9 +80,8 @@ li.picked .qty{border-color:var(--orange)}
 .qty input{width:42px;height:32px;border:0;text-align:center;font:700 16px var(--body);color:var(--ink);background:transparent;-moz-appearance:textfield;appearance:textfield;padding:0}
 .qty input::-webkit-outer-spin-button,.qty input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .qty input:focus{outline:none;background:#fff6e6}
-body.has-order .wrap{padding-bottom:150px}
-.obar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--deep);color:#fff;border-top:3px solid var(--orange);padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:0 -8px 24px rgba(58,20,88,.25)}
-.oin{max-width:940px;margin:0 auto;padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:10px}
+.obar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--deep);color:#fff;border:3px solid var(--orange);border-radius:16px;box-shadow:0 8px 24px rgba(58,20,88,.25)}
+.oin{padding:10px 14px;display:flex;flex-direction:column;gap:10px}
 .orow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px}
 .ohead{display:flex;flex-direction:column;min-width:0}
 .otitle{font-family:var(--label);font-size:24px;letter-spacing:.06em;color:var(--orange);line-height:1}
@@ -129,29 +128,29 @@ footer{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:
       <div class="step"><b>3</b><span>Paste it in a text to your rep</span></div>
     </div>
   </div>
+  <div class="obar" id="obar" hidden>
+    <div class="oin">
+      <div class="orow">
+        <div class="ohead"><span class="otitle">Your order</span><span class="osum" id="osum"></span></div>
+        <div class="obtns">
+          <button type="button" class="ob ghost" id="oclear">Clear</button>
+          <button type="button" class="ob ghost" id="otoggle">Show order</button>
+          <button type="button" class="ob" id="ocopy">Copy order</button>
+        </div>
+      </div>
+      <div class="oview" id="oview" hidden>
+        <label for="otext" class="olab">Your order (text format)</label>
+        <textarea id="otext" readonly rows="4"></textarea>
+      </div>
+      <div class="omsg" id="omsg" role="status"></div>
+    </div>
+  </div>
   <div class="tabs" role="tablist" aria-label="Brands" id="tabs"></div>
   <div class="panel" role="tabpanel" id="panel" aria-live="polite"></div>
   <footer>
     <div>Contact your sales rep to place an order.</div>
     <div class="dist"><span class="eyebrow">Distributed by Cleanline Management</span><div class="cl"><img src="logos/cleanline.webp" alt="CleanLine"></div></div>
   </footer>
-</div>
-<div class="obar" id="obar" hidden>
-  <div class="oin">
-    <div class="oview" id="oview" hidden>
-      <label for="otext" class="olab">Your order (text format)</label>
-      <textarea id="otext" readonly rows="4"></textarea>
-    </div>
-    <div class="orow">
-      <div class="ohead"><span class="otitle">Your order</span><span class="osum" id="osum"></span></div>
-      <div class="obtns">
-        <button type="button" class="ob ghost" id="oclear">Clear</button>
-        <button type="button" class="ob ghost" id="otoggle">Show order</button>
-        <button type="button" class="ob" id="ocopy">Copy order</button>
-      </div>
-    </div>
-    <div class="omsg" id="omsg" role="status"></div>
-  </div>
 </div>
 <script>
 const M=JSON.parse(document.getElementById("menu-data").textContent);
@@ -163,13 +162,13 @@ const B=[
  {id:"sirius",name:"Sirius",kind:"Badder + All-in-One",parts:[["Badder · 1g",M["Sirius Badder"],"sirius-badder"],["All-in-One · 1g",M["Sirius AiO"],"sirius-aio"]]},
  {id:"casual",name:"Casual",img:"casual",plate:true,kind:"1g Badder",parts:[["",M["Casual"]]]}
 ];
+const ALL={id:"all",name:"All Brands"};
 const ORDER={};try{Object.assign(ORDER,JSON.parse(localStorage.getItem("cl-order")||"{}"))}catch(e){}
 const keyOf=(brand,x)=>brand+"|"+x.s+"|"+(x.c||"");
 const list=(a,brand)=>a&&a.length?`<ol>${a.map((x,i)=>{const k=keyOf(brand,x),q=ORDER[k]&&ORDER[k].q||0,w=/wizard trees/i.test(x.c||"");return `<li class="${w?"wiz":""}${q?" picked":""}" data-k="${esc(k)}">${w?'<span class="sp" aria-hidden="true">✦</span><span class="sp" aria-hidden="true">✦</span><span class="sp" aria-hidden="true">✧</span>':""}<span class="rk">${String(i+1).padStart(2,"0")}</span><span class="nm">${esc(x.s)}${x.c?`<span class="co">x ${esc(x.c)}</span>`:""}</span><span class="qty"><button type="button" class="qb" data-d="-1" aria-label="Less ${esc(x.s)}">−</button><input type="number" inputmode="numeric" min="0" step="1" value="${q||""}" placeholder="0" aria-label="Quantity of ${esc(x.s)}" id="q-${esc(k).replace(/[^a-z0-9]/gi,"_")}"><button type="button" class="qb" data-d="1" aria-label="More ${esc(x.s)}">+</button></span></li>`}).join("")}</ol>`:`<p class="empty">Nothing available right now. Check back after the next refresh.</p>`;
 const tabs=document.getElementById("tabs"),panel=document.getElementById("panel");
 B.forEach(b=>{const t=document.createElement("button");t.className="tab";t.id="t-"+b.id;t.setAttribute("role","tab");t.textContent=b.name;t.onclick=()=>show(b.id,true);tabs.appendChild(t);});
 [ALL].forEach(b=>{const t=document.createElement("button");t.className="tab";t.id="t-"+b.id;t.setAttribute("role","tab");t.textContent=b.name;t.onclick=()=>show(b.id,true);tabs.appendChild(t);});
-const ALL={id:"all",name:"All Brands"};
 function brandHTML(b,compact){
   const n=b.parts.reduce((a,p)=>a+(p[1]||[]).length,0);
   const word=b.name.toUpperCase()==="VUZE"?"VUZE":b.name;
