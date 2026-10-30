@@ -56,6 +56,10 @@ ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(
 li{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;display:grid;grid-template-columns:2.4em minmax(0,1fr);gap:12px;align-items:center}
 .rk{font-family:var(--display);font-size:26px;color:var(--orange);line-height:1;font-variant-numeric:tabular-nums}
 .nm{font-weight:700;font-size:17px;min-width:0;line-height:1.25}
+.at{display:inline-block;margin-left:8px;vertical-align:2px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:999px;line-height:1.2;-webkit-text-fill-color:currentColor}
+.at-in{background:#ece3f7;color:#5b2a8a}
+.at-sa{background:#fff1d6;color:#9a5a00}
+.at-hy{background:#e2f3e7;color:#1d6b3a}
 .co{display:block;font-weight:400;font-size:13px;color:var(--muted);letter-spacing:.02em}
 .tn{display:block;font-style:italic;font-weight:400;font-size:13px;color:var(--muted);line-height:1.3;margin-top:2px}
 .empty{color:var(--muted);font-style:italic}
@@ -211,7 +215,9 @@ const B=[
 const ALL={id:"all",name:"All Brands"};
 const ORDER={};try{Object.assign(ORDER,JSON.parse(localStorage.getItem("cl-order")||"{}"))}catch(e){}
 const keyOf=(brand,x)=>brand+"|"+x.s+"|"+(x.c||"");
-const list=(a,brand)=>a&&a.length?`<ol>${a.map((x,i)=>{const k=keyOf(brand,x),q=ORDER[k]&&ORDER[k].q||0,w=/wizard trees|no till kings/i.test(x.c||"");return `<li class="${w?"wiz":""}${q?" picked":""}" data-k="${esc(k)}">${w?'<span class="sp" aria-hidden="true">✦</span><span class="sp" aria-hidden="true">✦</span><span class="sp" aria-hidden="true">✧</span>':""}<span class="rk">${String(i+1).padStart(2,"0")}</span><span class="nm">${esc(x.s)}${x.c?`<span class="co">x ${esc(x.c)}</span>`:""}${noteOf(brand,x)?`<span class="tn">“${esc(noteOf(brand,x))}”</span>`:""}</span><span class="qty"><button type="button" class="qb" data-d="-1" aria-label="Less ${esc(x.s)}">−</button><input type="number" inputmode="numeric" min="0" step="1" value="${q||""}" placeholder="0" aria-label="Quantity of ${esc(x.s)}" id="q-${esc(k).replace(/[^a-z0-9]/gi,"_")}"><button type="button" class="qb" data-d="1" aria-label="More ${esc(x.s)}">+</button></span></li>`}).join("")}</ol>`:`<p class="empty">Nothing available right now. Check back after the next refresh.</p>`;
+const ATTR={I:["Indica","in"],S:["Sativa","sa"],H:["Hybrid","hy"],IH:["Indica Hybrid","in"],SH:["Sativa Hybrid","sa"],CBD:["CBD","hy"]};
+const attr=t=>t&&ATTR[t]?`<span class="at at-${ATTR[t][1]}">${ATTR[t][0]}</span>`:"";
+const list=(a,brand)=>a&&a.length?`<ol>${a.map((x,i)=>{const k=keyOf(brand,x),q=ORDER[k]&&ORDER[k].q||0,w=/wizard trees|no till kings/i.test(x.c||"");return `<li class="${w?"wiz":""}${q?" picked":""}" data-k="${esc(k)}">${w?'<span class="sp" aria-hidden="true">✦</span><span class="sp" aria-hidden="true">✦</span><span class="sp" aria-hidden="true">✧</span>':""}<span class="rk">${String(i+1).padStart(2,"0")}</span><span class="nm">${esc(x.s)}${attr(x.t)}${x.c?`<span class="co">x ${esc(x.c)}</span>`:""}${noteOf(brand,x)?`<span class="tn">“${esc(noteOf(brand,x))}”</span>`:""}</span><span class="qty"><button type="button" class="qb" data-d="-1" aria-label="Less ${esc(x.s)}">−</button><input type="number" inputmode="numeric" min="0" step="1" value="${q||""}" placeholder="0" aria-label="Quantity of ${esc(x.s)}" id="q-${esc(k).replace(/[^a-z0-9]/gi,"_")}"><button type="button" class="qb" data-d="1" aria-label="More ${esc(x.s)}">+</button></span></li>`}).join("")}</ol>`:`<p class="empty">Nothing available right now. Check back after the next refresh.</p>`;
 const tabs=document.getElementById("tabs"),panel=document.getElementById("panel");
 B.forEach(b=>{const t=document.createElement("button");t.className="tab";t.id="t-"+b.id;t.setAttribute("role","tab");t.textContent=b.name;t.onclick=()=>show(b.id,true);tabs.appendChild(t);});
 [ALL].forEach(b=>{const t=document.createElement("button");t.className="tab";t.id="t-"+b.id;t.setAttribute("role","tab");t.textContent=b.name;t.onclick=()=>show(b.id,true);tabs.appendChild(t);});
