@@ -205,7 +205,7 @@ footer{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:
 const M=JSON.parse(document.getElementById("menu-data").textContent);
 let NT={};try{NT=JSON.parse(document.getElementById("notes-data").textContent)}catch(e){}
 let AT={};try{AT=JSON.parse(document.getElementById("attr-data").textContent)}catch(e){}
-const attrOf=(brand,x)=>x.t||AT[(brand==="Sirius All-in-One"?"Sirius AiO":brand)+"|"+x.s+"|"+(x.c||"")]||"";
+const attrOf=(brand,x)=>AT[(brand==="Sirius All-in-One"?"Sirius AiO":brand)+"|"+x.s+"|"+(x.c||"")]||x.t||"";
 const noteOf=(brand,x)=>NT[(brand==="Sirius All-in-One"?"Sirius AiO":brand)+"|"+x.s+"|"+(x.c||"")]||"";
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const when=new Date(M.updated).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",timeZone:"America/Los_Angeles"});
