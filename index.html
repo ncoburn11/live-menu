@@ -23,6 +23,8 @@ body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--body)}
 .wrap{max-width:940px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:26px}
 header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px}
 .eyebrow{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--purple);font-weight:700}
+.drop{margin:10px 0 0;font-family:var(--label);font-size:clamp(20px,3.6vw,28px);letter-spacing:.06em;line-height:1.1;color:var(--purple);text-transform:uppercase}
+.drop span{color:var(--orange)}
 h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(52px,12vw,104px);line-height:.9;margin:6px 0 0;letter-spacing:-.01em}
 h1 .o{color:var(--orange);-webkit-text-stroke:0}
 .hgroup{display:flex;flex-direction:column;align-items:flex-start;min-width:0}
@@ -165,6 +167,7 @@ footer{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:
     <div class="hgroup">
       <span class="live" role="status"><i aria-hidden="true"></i>Live Menu</span>
       <h1>Current <span class="o">Lineup.</span></h1>
+      <p class="drop">Flavors sell fast! <span>Check back every Monday for the new drop.</span></p>
     </div>
   </header>
   <div class="how">
