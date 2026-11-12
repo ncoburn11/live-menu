@@ -1,7 +1,7 @@
 # Flavorade Extracts — Site Cohesion Checklist
 
 Legend: [ ] open · [x] done · [~] skipped
-Current item: **#1**
+Current item: **#1** (PAUSED 2026-11-12: waiting to review fonts with head of marketing)
 Progress: 0/19 done, 0 skipped
 
 ## Brand system (homepage is the rulebook)
@@ -44,7 +44,8 @@ Progress: 0/19 done, 0 skipped
 _(none yet)_
 
 ## Decisions log
-_(none yet)_
+- 2026-11-12: Anton + DM Sans mockup made for review (private, share before sending): https://claude.ai/artifact/NkmSVn4bkBe18uMwF9rTBK. Font choice not locked yet.
+- Still needed for #1: Anton vs Bebas decision, plus current Custom CSS and Code Injection header pasted in.
 
 ## Master Custom CSS
 Kept in full in chat; latest version is pasted below whenever it changes.
